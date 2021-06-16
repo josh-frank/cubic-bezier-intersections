@@ -4,6 +4,7 @@ import './App.css';
 import CurveFields from './components/CurveFields';
 import CurvePath from './components/CurvePath';
 import MouseReticle from './components/MouseReticle';
+import { computeIntersections } from './utilities/cubicRoots';
 
 // const testCurve = [
 //   [ "M", 100, 100 ],
@@ -11,9 +12,9 @@ import MouseReticle from './components/MouseReticle';
 // ];
 
 function App() {
-
+  
   const [ mouseDown, setMouseDown ] = useState( null );
-
+  
   const [ curve, setCurve ] = useState( [ 100, 100, 400, 200, 350, 350, 500, 300 ] );
 
   const handleMouseDown = useCallback( mouseDownEvent => {
@@ -49,7 +50,12 @@ function App() {
       <CurvePath curve={ curve} />
       { mouseDown && <MouseReticle mouseDown={ mouseDown } /> }
     </svg>
-    { mouseDown && Object.values( mouseDown ).join() }
+    {/* { mouseDown && Object.values( mouseDown ).join() } */}
+    { mouseDown && computeIntersections(
+      curve,
+      [ 0, mouseDown.y ],
+      [ document.documentElement.clientWidth, mouseDown.y ]
+    ) }
   </div>;
 
 }
