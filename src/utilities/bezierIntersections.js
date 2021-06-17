@@ -55,7 +55,7 @@ const cubicRoots = P => {
     return t;
 }
 
-const computeIntersections = ( curveDefinition, lineStart, lineEnd ) => {
+module.exports.computeIntersections = ( curveDefinition, lineStart, lineEnd ) => {
     const A = lineEnd[ 1 ] - lineStart[ 1 ];
     const B = lineStart[ 0 ] - lineEnd[ 0 ];
     const C = lineStart[ 0 ] * ( lineStart[ 1 ] - lineEnd[ 1 ] ) + lineStart[ 1 ] * ( lineEnd[ 0 ] - lineStart[ 0 ] );
@@ -76,4 +76,18 @@ const computeIntersections = ( curveDefinition, lineStart, lineEnd ) => {
     }, [] );
 }
 
-export default computeIntersections;
+module.exports.computeCurveLength = curveDefinition => {
+    const v = [ 2 * ( curveDefinition[ 2 ] - curveDefinition[ 0 ] ), 2 * ( curveDefinition[ 3 ] - curveDefinition[ 1 ] ) ];
+    const w = [ curveDefinition[ 4 ] - 2 * curveDefinition[ 2 ] + curveDefinition[ 0 ], curveDefinition[ 5 ] - 2 * curveDefinition[ 3 ] + curveDefinition[ 1 ] ];
+    const uu = 4 * ( w[ 0 ] * w[ 0 ] + w[ 1 ] * w[ 1 ] );
+    if ( uu < 0.00001 ) return Math.sqrt( ( curveDefinition[ 4 ] - curveDefinition[ 0 ] ) * ( curveDefinition[ 4 ] - curveDefinition[ 0 ] ) + ( curveDefinition[ 5 ] - curveDefinition[ 1 ] ) * ( curveDefinition[ 5 ] - curveDefinition[ 1 ] ) );
+    const vv = 4 * ( v[ 0 ] * w[ 0 ] + v[ 1 ] * w[ 1 ] );
+    const ww = v[ 0 ] * v[ 0 ] + v[ 1 ] * v[ 1 ];
+    const t1 = ( 2 * Math.sqrt( uu * ( uu + vv + ww ) ) );
+    const t2 = 2 * uu+vv;
+    const t3 = vv * vv - 4 * uu * ww;
+    const t4 = ( 2 * Math.sqrt( uu * ww ) );
+    return ( ( t1 * t2 - t3 * Math.log( t2 + t1 ) - ( vv * t4 - t3 * Math.log( vv + t4 ) ) ) / ( 8 * Math.pow( uu, 1.5 ) ) );
+};
+
+// export default { computeIntersections, computeCurveLength };

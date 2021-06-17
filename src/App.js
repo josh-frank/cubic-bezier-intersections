@@ -4,6 +4,7 @@ import './App.css';
 import CurveFields from './components/CurveFields';
 import CurvePath from './components/CurvePath';
 import MouseReticle from './components/MouseReticle';
+import { computeCurveLength } from './utilities/bezierIntersections';
 
 // const testCurves = [
 //   [ 100, 100, 400, 200, 350, 350, 500, 300 ],
@@ -50,6 +51,9 @@ function App() {
   return <>
     <div className="app">
       <CurveFields curve={ curve } setCurve={ setCurve } />
+      <div className="curve-length">
+        Curve length: { Math.round( computeCurveLength( curve.slice( 2 ) ) ) }
+      </div>
       <svg
         className="viewbox"
         viewBox={ `0 0 ${ document.documentElement.clientWidth } ${ document.documentElement.clientHeight }` }
