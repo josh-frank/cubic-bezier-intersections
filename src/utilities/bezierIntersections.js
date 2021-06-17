@@ -23,15 +23,14 @@ const cubicRoots = P => {
     if ( D >= 0 ) {                                         // complex or duplicate roots
         const S = Math.sign( R + Math.sqrt( D ) ) * Math.pow( Math.abs( R + Math.sqrt( D ) ), ( 1 / 3 ) );
         const T = Math.sign( R - Math.sqrt( D ) ) * Math.pow( Math.abs( R - Math.sqrt( D ) ), ( 1 / 3 ) );
-
         t = [
             -A / 3 + ( S + T ),                             // real root
             -A / 3 - ( S + T ) / 2,                         // real part of complex root
             -A / 3 - ( S + T ) / 2                          // real part of complex root
         ];
-        Im = Math.abs( Math.sqrt( 3 ) * ( S - T ) / 2 );    // complex part of root pair   
-        
-        /*discard complex roots*/
+        // complex part of root pair   
+        Im = Math.abs( Math.sqrt( 3 ) * ( S - T ) / 2 );
+        // discard complex roots
         if ( Im !== 0 ) {
             t[ 1 ] = -1;
             t[ 2 ] = -1;
@@ -46,11 +45,11 @@ const cubicRoots = P => {
         Im = 0.0;
     }
 
-    /*discard out of spec roots*/
+    // discard out of spec roots
     for ( let i = 0; i < 3; i ++ ) if ( t[ i ] < 0 || t[ i ] > 1.0 ) t[ i ] = -1;
                 
-    /*sort but place -1 at the end*/
-    // t=sortSpecial(t);
+    // sort placing -1 at the back
+    // t.sort( t );
 
     // console.log(t[0]+" "+t[1]+" "+t[2]);
     return t;
