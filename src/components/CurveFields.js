@@ -8,7 +8,7 @@ export default function CurveFields( { curve, setCurve } ) {
 
     function updateCurve( index, newParameter ) {
         const newCurve = [ ...curve ];
-        newCurve[ index ] = newParameter;
+        newCurve[ index ] = parseInt( newParameter );
         setCurve( newCurve )
     }
 
