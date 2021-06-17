@@ -1,4 +1,24 @@
-export default function CurvePath( { curve } ) {
+import { computeIntersections } from "../utilities/cubicRoots";
+
+export default function CurvePath( { curve, mouseDown } ) {
+
+    const intersectionPoints = mouseDown && [
+        ...computeIntersections(
+            curve,
+            [ 0, mouseDown.y ],
+            [ document.documentElement.clientWidth, mouseDown.y ]
+        ), ...computeIntersections(
+            curve,
+            [ mouseDown.x, 0 ],
+            [ mouseDown.x, document.documentElement.clientHeight ]
+        )
+    ].map( ( intersectionPoint, index ) => <circle
+        key={ index }
+        cx={ intersectionPoint[ 0 ] }
+        cy={ intersectionPoint[ 1 ] }
+        r="3"
+        fill="red"
+    /> );
 
     return <g>
         <path d={ `M ${ curve.slice( 0, 2 ).join( " " ) } C ${ curve.slice( 2 ).join( " " ) }` } stroke="black" fill="none" />
@@ -8,6 +28,7 @@ export default function CurvePath( { curve } ) {
         <circle cx={ curve[ 2 ] } cy={ curve[ 3 ] } r="3" fill="black" />
         <circle cx={ curve[ 4 ] } cy={ curve[ 5 ] } r="3" fill="black" />
         <circle cx={ curve[ 6 ] } cy={ curve[ 7 ] } r="3" fill="black" />
+        { mouseDown && intersectionPoints }
     </g>;
 
 }
