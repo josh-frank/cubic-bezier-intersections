@@ -1,3 +1,5 @@
 # curve-intersection
 
-A web app for visualizing the intersection of a cubic bézier curve with a horizontal axis. Enter values in the fields at the top left to change the curve. Click anywhere on the document to see where the `mouseDownEvent`'s `x` and `y` would intersect with a cubic bézier.
+A web app for visualizing the intersection of a cubic bézier curve with a horizontal axis. Made to accompany [this blog post](https://joshgoestoflatiron.medium.com/june-17-calculating-svg-b%C3%A9zier-curve-intersections-without-snap-adff3fc6aae7)
+
+Enter values in the fields at the top left to change the curve. Click anywhere on the document to see where the `mouseDownEvent`'s `x` and `y` intersect with that curve.

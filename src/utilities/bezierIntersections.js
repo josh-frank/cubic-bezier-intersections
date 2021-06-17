@@ -7,27 +7,6 @@ const bezierCoefficients = ( p0, p1, p2, p3 ) => {
     ];
 }
 
-const computeIntersections = ( curveDefinition, lineStart, lineEnd ) => {
-    const A = lineEnd[ 1 ] - lineStart[ 1 ];
-    const B = lineStart[ 0 ] - lineEnd[ 0 ];
-    const C = lineStart[ 0 ] * ( lineStart[ 1 ] - lineEnd[ 1 ] ) + lineStart[ 1 ] * ( lineEnd[ 0 ] - lineStart[ 0 ] );
-    const xBezierCoefficients = bezierCoefficients( curveDefinition[ 0 ], curveDefinition[ 2 ], curveDefinition[ 4 ], curveDefinition[ 6 ] );
-    const yBezierCoefficients = bezierCoefficients( curveDefinition[ 1 ], curveDefinition[ 3 ], curveDefinition[ 5 ], curveDefinition[ 7 ] );
-    const P = [
-            A * xBezierCoefficients[ 0 ] + B * yBezierCoefficients[ 0 ],		/*t^3*/
-            A * xBezierCoefficients[ 1 ] + B * yBezierCoefficients[ 1 ],		/*t^2*/
-            A * xBezierCoefficients[ 2 ] + B * yBezierCoefficients[ 2 ],		/*t*/
-            A * xBezierCoefficients[ 3 ] + B * yBezierCoefficients[ 3 ] + C	    /*1*/
-    ];
-    return cubicRoots( P ).reduce( ( result, root ) => {
-            return [ ...result, [
-                    xBezierCoefficients[ 0 ] * root * root * root + xBezierCoefficients[ 1 ] * root * root + xBezierCoefficients[ 2 ] * root + xBezierCoefficients[ 3 ],
-                    yBezierCoefficients[ 0 ] * root * root * root + yBezierCoefficients[ 1 ] * root * root + yBezierCoefficients[ 2 ] * root + yBezierCoefficients[ 3 ]
-            ] ];
-
-    }, [] );
-}
-
 const cubicRoots = P => {
     let [ a, b, c, d ] = P;
 
@@ -77,4 +56,25 @@ const cubicRoots = P => {
     return t;
 }
 
-module.exports = { computeIntersections }
+const computeIntersections = ( curveDefinition, lineStart, lineEnd ) => {
+    const A = lineEnd[ 1 ] - lineStart[ 1 ];
+    const B = lineStart[ 0 ] - lineEnd[ 0 ];
+    const C = lineStart[ 0 ] * ( lineStart[ 1 ] - lineEnd[ 1 ] ) + lineStart[ 1 ] * ( lineEnd[ 0 ] - lineStart[ 0 ] );
+    const xBezierCoefficients = bezierCoefficients( curveDefinition[ 0 ], curveDefinition[ 2 ], curveDefinition[ 4 ], curveDefinition[ 6 ] );
+    const yBezierCoefficients = bezierCoefficients( curveDefinition[ 1 ], curveDefinition[ 3 ], curveDefinition[ 5 ], curveDefinition[ 7 ] );
+    const P = [
+            A * xBezierCoefficients[ 0 ] + B * yBezierCoefficients[ 0 ],		/*t^3*/
+            A * xBezierCoefficients[ 1 ] + B * yBezierCoefficients[ 1 ],		/*t^2*/
+            A * xBezierCoefficients[ 2 ] + B * yBezierCoefficients[ 2 ],		/*t*/
+            A * xBezierCoefficients[ 3 ] + B * yBezierCoefficients[ 3 ] + C	    /*1*/
+    ];
+    return cubicRoots( P ).reduce( ( result, root ) => {
+            return [ ...result, [
+                    xBezierCoefficients[ 0 ] * root * root * root + xBezierCoefficients[ 1 ] * root * root + xBezierCoefficients[ 2 ] * root + xBezierCoefficients[ 3 ],
+                    yBezierCoefficients[ 0 ] * root * root * root + yBezierCoefficients[ 1 ] * root * root + yBezierCoefficients[ 2 ] * root + yBezierCoefficients[ 3 ]
+            ] ];
+
+    }, [] );
+}
+
+export default computeIntersections;

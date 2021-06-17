@@ -1,4 +1,4 @@
-import { computeIntersections } from "../utilities/bezierIntersections";
+import computeIntersections from "../utilities/bezierIntersections";
 
 export default function CurvePath( { curve, mouseDown } ) {
 
